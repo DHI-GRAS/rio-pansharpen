@@ -6,6 +6,7 @@ import numpy as np
 from affine import Affine
 from rasterio.enums import Resampling
 from rasterio.warp import reproject
+from rasterio.windows import Window
 
 
 def _adjust_block_size(width, height, blocksize):
@@ -112,9 +113,12 @@ def _simple_mask(data, ndv):
 def _pad_window(wnd, pad):
     """Add padding to windows
     """
-    return (
-        (wnd[0][0] - pad, wnd[0][1] + pad),
-        (wnd[1][0] - pad, wnd[1][1] + pad))
+    return Window(
+        wnd.col_off - pad,
+        wnd.row_off - pad,
+        wnd.width + 2 * pad,
+        wnd.height + 2 * pad
+    )
 
 
 def _calc_windows(pan_src, customwindow):
