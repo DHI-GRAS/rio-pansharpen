@@ -1,9 +1,12 @@
-from affine import Affine
 import pytest
-from rio_pansharpen import utils
-import numpy as np
-import rio_pansharpen.methods as pansharp_methods
+
 import rasterio
+from rasterio.windows import Window
+import numpy as np
+from affine import Affine
+
+from rio_pansharpen import utils
+import rio_pansharpen.methods as pansharp_methods
 from rio_pansharpen.worker import _pansharpen_worker
 from rio_pansharpen.utils import _calc_windows, _half_window
 
@@ -59,8 +62,8 @@ def test_calc_windows_customwindows(test_pansharp_data):
     open_files, pan_window, _, g_args = test_pansharp_data
 
     w = _calc_windows(open_files[0], 1024)
-    assert w[0] == (((0, 1024), (0, 1024)), (0, 0))
-    assert w[1] == (((1024, 2048), (0, 1024)), (0, 0))
+    assert w[0] == (Window.from_slices(slice(0, 1024), slice(0, 1024)), (0, 0))
+    assert w[1] == (Window.from_slices(slice(1024, 2048), slice(0, 1024)), (0, 0))
 
 
 def test_pansharpen_worker_uint16(test_pansharp_data):

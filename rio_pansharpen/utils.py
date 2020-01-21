@@ -26,8 +26,12 @@ def _make_windows(width, height, blocksize):
     """
     for x in range(0, width, blocksize):
         for y in range(0, height, blocksize):
-            yield ((y, min((y + blocksize), height)),
-                   (x, min((x + blocksize), width)))
+            yield Window(
+                x,
+                y,
+                (min((x + blocksize), width) - x),
+                (min((y + blocksize), height) - y)
+            )
 
 
 def _make_affine(fr_shape, to_shape):
