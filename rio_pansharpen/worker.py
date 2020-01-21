@@ -43,6 +43,8 @@ def pansharpen(vis, vis_transform, pan, pan_transform,
     # Main Pansharpening Processing
     if method == "Brovey":
         pansharp, _ = Brovey(rgb, pan, weight, pan_dtype)
+    else:
+        raise ValueError("Methods other than 'Brovey' currently not supported")
     # TODO: add other methods
 
     return pansharp
